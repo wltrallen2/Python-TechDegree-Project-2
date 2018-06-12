@@ -14,6 +14,7 @@ When encrypting, the user can also select the following options:
 import os
 import textwrap
 from caesar import Caesar
+from atbash import Atbash
 
 
 ################ CONSTANTS ################
@@ -24,7 +25,7 @@ VALID_ACTIONS = {'e': ENCRYPT,
                  'd': DECRYPT,
                  'q': QUIT }
 
-VALID_CIPHERS = [Caesar]
+VALID_CIPHERS = [Atbash, Caesar]
 
 ################ USER MESSAGES & PROMPTS ################
 WELCOME = 'Welcome to Secret Messages!'
@@ -88,6 +89,7 @@ def prompt_for_cipher(action):
         for valid_cipher in VALID_CIPHERS:
             print("     {}. {} Cipher"\
                     .format(cipher_index, valid_cipher.__name__))
+            cipher_index += 1
 
         user_index = input(CIPHER_PROMPT_PART_2)
         try:
