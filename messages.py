@@ -13,8 +13,9 @@ When encrypting, the user can also select the following options:
 '''
 import os
 import textwrap
-from caesar import Caesar
 from atbash import Atbash
+from caesar import Caesar
+from keyword_cipher import Keyword
 
 
 ################ CONSTANTS ################
@@ -25,7 +26,7 @@ VALID_ACTIONS = {'e': ENCRYPT,
                  'd': DECRYPT,
                  'q': QUIT }
 
-VALID_CIPHERS = [Atbash, Caesar]
+VALID_CIPHERS = [Atbash, Caesar, Keyword]
 
 ################ USER MESSAGES & PROMPTS ################
 WELCOME = 'Welcome to Secret Messages!'
@@ -49,6 +50,9 @@ CIPHER_PROMPT_ERROR_MESSAGE = \
 "\n*** Oops! You didn't enter a valid numeric choice. ***\n"
 
 MESSAGE_PROMPT = "Please enter the message you'd like to {}: "
+
+KEYWORD_PROMPT = \
+"\nPlease enter the key word you'd like to use for this cipher ==>"
 
 OUTPUT_PREMESSAGE = "\nHere is your {}ed message using the {} cipher: "
 
@@ -107,15 +111,21 @@ def prompt_for_message(action):
     print(MESSAGE_PROMPT.format(action))
     return input()
 
-def perform_action(action, cipher, message):
+def get_key_word():
+    """get_key_word() prompts the user for a keyword for use in
+    the cipher.
+    """
+    return input(KEYWORD_PROMPT)
+
+def perform_action(action, coding_engine, message):
     """perform_action(action, cipher, message) returns the user's message
     as an encrypted or decrypted string that has been coded using
     a subclass of the Cipher class.
     """
     if action == ENCRYPT:
-        return cipher().encrypt(message)
+        return coding_engine.encrypt(message)
     else:
-        return cipher().decrypt(message)
+        return coding_engine.decrypt(message)
 
 def output_results(action, cipher, message):
     """output_results(action, message) outputs a user message reminding the
@@ -136,8 +146,20 @@ if __name__ == "__main__":
         if action == QUIT:
             print(EXIT_MESSAGE)
             break
+            
         clear_screen()
         cipher = prompt_for_cipher(action)
         message = prompt_for_message(action)
-        coded_message = perform_action(action, cipher, message)
+
+        if cipher == Keyword:
+            coding_engine = cipher(get_key_word())
+        else:
+            coding_engine = cipher()
+
+        coded_message = str()
+        if action == ENCRYPT:
+            coded_message = coding_engine.encrypt(message)
+        else:
+            coded_message = coding_engine.decrypt(message)
+
         output_results(action, cipher, coded_message)
