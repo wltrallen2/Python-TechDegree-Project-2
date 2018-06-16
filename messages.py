@@ -16,7 +16,6 @@ import textwrap
 from atbash import Atbash
 from caesar import Caesar
 from keyword_cipher import Keyword
-from transposition import Transposition
 
 
 ################ CONSTANTS ################
@@ -27,9 +26,7 @@ VALID_ACTIONS = {'e': ENCRYPT,
                  'd': DECRYPT,
                  'q': QUIT }
 
-VALID_CIPHERS = [Atbash, Caesar, Keyword, Transposition]
-REQUIRES_KEYWORD = [Keyword]
-REQUIRES_KEY_NUMBER = [Transposition]
+VALID_CIPHERS = [Atbash, Caesar, Keyword]
 
 ################ USER MESSAGES & PROMPTS ################
 WELCOME = 'Welcome to Secret Messages!'
@@ -52,13 +49,10 @@ CIPHER_CONFIRMATION = "*** You chose the {} Cipher. ***\n"
 CIPHER_PROMPT_ERROR_MESSAGE = \
 "\n*** Oops! You didn't enter a valid numeric choice. ***\n"
 
-MESSAGE_PROMPT = "Please enter the message you'd like to {}: \n"
+MESSAGE_PROMPT = "Please enter the message you'd like to {}: "
 
 KEYWORD_PROMPT = \
-"\nPlease enter the key word you'd like to use for this cipher ==> "
-
-KEY_NUMBER_PROMPT = \
-"\nPlease enter the key number you'd like to use for this cipher ==> "
+"\nPlease enter the key word you'd like to use for this cipher ==>"
 
 OUTPUT_PREMESSAGE = "\nHere is your {}ed message using the {} cipher: "
 
@@ -113,38 +107,25 @@ def prompt_for_message(action):
     """prompt_for_message(action) displays a prompt requesting the user to
     enter a message to be encrypted or decrypted utilizing the given
     action.
-    """
-    return input(MESSAGE_PROMPT.format(action))
+"""
+    print(MESSAGE_PROMPT.format(action))
+    return input()
 
-def create_cipher_instance(cipher):
-    """create_cipher_instance(cipher) returns a cipher instance
-    of the correct type after propmtping for any necessary key
-    words or numbers required by that type of cipher.
-    """
-    if cipher in REQUIRES_KEYWORD + REQUIRES_KEY_NUMBER:
-        return cipher(get_key(cipher))
-    return cipher()
-
-
-def get_key(cipher):
+def get_key_word():
     """get_key_word() prompts the user for a keyword for use in
     the cipher.
     """
-    prompt = KEYWORD_PROMPT
-    if cipher in REQUIRES_KEY_NUMBER:
-        prompt = KEY_NUMBER_PROMPT
+    return input(KEYWORD_PROMPT)
 
-    return input(prompt)
-
-def perform_action(action, cipher_instance, message):
+def perform_action(action, coding_engine, message):
     """perform_action(action, cipher, message) returns the user's message
     as an encrypted or decrypted string that has been coded using
     a subclass of the Cipher class.
     """
     if action == ENCRYPT:
-        return cipher_instance.encrypt(message)
+        return coding_engine.encrypt(message)
     else:
-        return cipher_instance.decrypt(message)
+        return coding_engine.decrypt(message)
 
 def output_results(action, cipher, message):
     """output_results(action, message) outputs a user message reminding the
@@ -165,10 +146,20 @@ if __name__ == "__main__":
         if action == QUIT:
             print(EXIT_MESSAGE)
             break
-
+            
         clear_screen()
         cipher = prompt_for_cipher(action)
         message = prompt_for_message(action)
-        cipher_instance = create_cipher_instance(cipher)
-        coded_message = perform_action(action, cipher_instance, message)
+
+        if cipher == Keyword:
+            coding_engine = cipher(get_key_word())
+        else:
+            coding_engine = cipher()
+
+        coded_message = str()
+        if action == ENCRYPT:
+            coded_message = coding_engine.encrypt(message)
+        else:
+            coded_message = coding_engine.decrypt(message)
+
         output_results(action, cipher, coded_message)

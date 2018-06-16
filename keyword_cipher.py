@@ -19,7 +19,7 @@ ALPHABET = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
 class Keyword(Cipher):
     def __init__(self, key_word = None):
         """The initializer accepts a keyword <key_word> and sets then
-        instance variable <keyword_alphabet>.
+        class variable <keyword_alphabet>.
         """
         self.keyword_alphabet = create_keyword_alphabet(key_word.upper())
 
