@@ -32,42 +32,102 @@ REQUIRES_KEYWORD = [Keyword]
 REQUIRES_KEY_NUMBER = [Transposition]
 
 ################ USER MESSAGES & PROMPTS ################
-WELCOME = 'Welcome to Secret Messages!'
+# The following constants are listed alphabetically.
+#########################################################
 
 ACTION_PROMPT = '''
 Would you like to encrypt or decrypt a message?
 (Type 'Q' or 'QUIT' to quit.) [E/D/Q] ==> '''
-
-INVALID_ACTION_MESSAGE = '''
-You've entered an invalid action.
-Please enter [E]ncrypt, [D]ecrypt, or [Q]uit.'''
-
-CIPHER_PROMPT_PART_1 = "Please choose the cipher you would like to use to {} \
-your message:"
-
-CIPHER_PROMPT_PART_2 = "Enter the number of your choice here ==> "
 
 CIPHER_CONFIRMATION = "*** You chose the {} Cipher. ***\n"
 
 CIPHER_PROMPT_ERROR_MESSAGE = \
 "\n*** Oops! You didn't enter a valid numeric choice. ***\n"
 
-MESSAGE_PROMPT = "Please enter the message you'd like to {}: \n"
+CIPHER_PROMPT_PART_1 = "Please choose the cipher you would like to use to {} \
+your message:"
 
-KEYWORD_PROMPT = \
-"\nPlease enter the key word you'd like to use for this cipher ==> "
+CIPHER_PROMPT_PART_2 = "Enter the number of your choice here ==> "
+
+EXIT_MESSAGE = '\nThank you for using SECRET MESSAGES!\n'
+
+INVALID_ACTION_MESSAGE = '''
+You've entered an invalid action.
+Please enter [E]ncrypt, [D]ecrypt, or [Q]uit.'''
 
 KEY_NUMBER_PROMPT = \
-"\nPlease enter the key number you'd like to use for this cipher ==> "
+"Please enter the key number you'd like to use for this cipher ==> "
+
+KEYWORD_PROMPT = \
+"Please enter the key word you'd like to use for this cipher ==> "
+
+MESSAGE_PROMPT = "Please enter the message you'd like to {}: \n"
 
 OUTPUT_PREMESSAGE = "\nHere is your {}ed message using the {} cipher: "
 
-EXIT_MESSAGE = '\nThank you for using Secret Messages!\n'
+PROMPT_TO_INCLUDE_PADDING = '''
+Would you like to use a one-time pad to {} this message? [Y/N] '''
 
+PROMPT_FOR_ONE_TIME_PAD = \
+'''Please enter the one-time pad that you would like to use
+to {} this message ==> '''
+
+WARNING_PAD_TOO_SHORT = '''
+*** Remember that your pad must be the same number of character or
+more than you original message. ***
+'''
+
+WARNING_YES_NO_REQUIRED = '''
+*** Please enter YES, Y, NO, or N. ***
+'''
+
+WELCOME = 'Welcome to Secret Messages!'
+
+
+################ HELPER FUNCTIONS ################
+# The following helper functions are listed alphabetically.
+##################################################
 
 def clear_screen():
     """clear_screen() clears the screen for ease of readability."""
     os.system('clr' if os.name == 'nt' else 'clear')
+
+def create_cipher_instance(cipher):
+    """create_cipher_instance(cipher) returns a cipher instance
+    of the correct type after propmtping for any necessary key
+    words or numbers required by that type of cipher.
+    """
+    if cipher in REQUIRES_KEYWORD + REQUIRES_KEY_NUMBER:
+        return cipher(get_key(cipher))
+    return cipher()
+
+def get_key(cipher):
+    """get_key_word() prompts the user for a keyword for use in
+    the cipher.
+    """
+    prompt = KEYWORD_PROMPT
+    if cipher in REQUIRES_KEY_NUMBER:
+        prompt = KEY_NUMBER_PROMPT
+
+    return input(prompt)
+
+def output_results(action, cipher, message):
+    """output_results(action, message) outputs a user message reminding the
+    user of the action taken and the name of the cipher used.
+    Then, it prints the coded message.
+    """
+    print(OUTPUT_PREMESSAGE.format(action, cipher.__name__))
+    print(message)
+
+def perform_action(action, cipher_instance, message):
+    """perform_action(action, cipher, message) returns the user's message
+    as an encrypted or decrypted string that has been coded using
+    a subclass of the Cipher class.
+    """
+    if action == ENCRYPT:
+        return cipher_instance.encrypt(message)
+    else:
+        return cipher_instance.decrypt(message)
 
 def prompt_for_action():
     """prompt_for_action() uses a while True loop to display a user prompt,
@@ -109,6 +169,26 @@ def prompt_for_cipher(action):
         except (ValueError, IndexError):
             print(CIPHER_PROMPT_ERROR_MESSAGE)
 
+def prompt_for_padding(action, cipher_instance, message):
+    while True:
+        user_response = input(PROMPT_TO_INCLUDE_PADDING.format(action))
+        if user_response.upper() in ['Y', 'YES', 'N', 'NO']:
+            to_be_padded = user_response.upper() in ['Y', 'YES']
+            break
+        print(WARNING_YES_NO_REQUIRED)
+        continue
+
+    if to_be_padded:
+        while True:
+            pad = input(PROMPT_FOR_ONE_TIME_PAD.format(action))
+            if len(pad) >= len(message):
+                message = cipher_instance.pad(message, pad)
+                break
+            print(WARNING_PAD_TOO_SHORT)
+            continue
+
+    return message
+
 def prompt_for_message(action):
     """prompt_for_message(action) displays a prompt requesting the user to
     enter a message to be encrypted or decrypted utilizing the given
@@ -116,43 +196,6 @@ def prompt_for_message(action):
     """
     return input(MESSAGE_PROMPT.format(action))
 
-def create_cipher_instance(cipher):
-    """create_cipher_instance(cipher) returns a cipher instance
-    of the correct type after propmtping for any necessary key
-    words or numbers required by that type of cipher.
-    """
-    if cipher in REQUIRES_KEYWORD + REQUIRES_KEY_NUMBER:
-        return cipher(get_key(cipher))
-    return cipher()
-
-
-def get_key(cipher):
-    """get_key_word() prompts the user for a keyword for use in
-    the cipher.
-    """
-    prompt = KEYWORD_PROMPT
-    if cipher in REQUIRES_KEY_NUMBER:
-        prompt = KEY_NUMBER_PROMPT
-
-    return input(prompt)
-
-def perform_action(action, cipher_instance, message):
-    """perform_action(action, cipher, message) returns the user's message
-    as an encrypted or decrypted string that has been coded using
-    a subclass of the Cipher class.
-    """
-    if action == ENCRYPT:
-        return cipher_instance.encrypt(message)
-    else:
-        return cipher_instance.decrypt(message)
-
-def output_results(action, cipher, message):
-    """output_results(action, message) outputs a user message reminding the
-    user of the action taken and the name of the cipher used.
-    Then, it prints the coded message.
-    """
-    print(OUTPUT_PREMESSAGE.format(action, cipher.__name__))
-    print(message)
 
 
 ################ MAIN SCRIPT ################
@@ -168,7 +211,9 @@ if __name__ == "__main__":
 
         clear_screen()
         cipher = prompt_for_cipher(action)
-        message = prompt_for_message(action)
         cipher_instance = create_cipher_instance(cipher)
+        message = prompt_for_message(action)
+        #TODO: Strip white space and special characters if not needed.
+        message = prompt_for_padding(action, cipher_instance, message)
         coded_message = perform_action(action, cipher_instance, message)
         output_results(action, cipher, coded_message)
