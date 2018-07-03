@@ -13,10 +13,7 @@ When encrypting, the user can also select the following options:
 '''
 import os
 import textwrap
-from atbash import Atbash
 from caesar import Caesar
-from keyword_cipher import Keyword
-from transposition import Transposition
 
 
 ################ CONSTANTS ################
@@ -27,42 +24,42 @@ VALID_ACTIONS = {'e': ENCRYPT,
                  'd': DECRYPT,
                  'q': QUIT }
 
-VALID_CIPHERS = [Atbash, Caesar, Keyword, Transposition]
-REQUIRES_KEYWORD = [Keyword]
-REQUIRES_KEY_NUMBER = [Transposition]
+VALID_CIPHERS = [Caesar]
+REQUIRES_KEYWORD = []
+REQUIRES_KEY_NUMBER = []
 
 ################ USER MESSAGES & PROMPTS ################
-WELCOME = 'Welcome to Secret Messages!'
-
 ACTION_PROMPT = '''
 Would you like to encrypt or decrypt a message?
 (Type 'Q' or 'QUIT' to quit.) [E/D/Q] ==> '''
-
-INVALID_ACTION_MESSAGE = '''
-You've entered an invalid action.
-Please enter [E]ncrypt, [D]ecrypt, or [Q]uit.'''
-
-CIPHER_PROMPT_PART_1 = "Please choose the cipher you would like to use to {} \
-your message:"
-
-CIPHER_PROMPT_PART_2 = "Enter the number of your choice here ==> "
 
 CIPHER_CONFIRMATION = "*** You chose the {} Cipher. ***\n"
 
 CIPHER_PROMPT_ERROR_MESSAGE = \
 "\n*** Oops! You didn't enter a valid numeric choice. ***\n"
 
-MESSAGE_PROMPT = "Please enter the message you'd like to {}: \n"
+CIPHER_PROMPT_PART_1 = "Please choose the cipher you would like to use to {} \
+your message:"
 
-KEYWORD_PROMPT = \
-"\nPlease enter the key word you'd like to use for this cipher ==> "
+CIPHER_PROMPT_PART_2 = "Enter the number of your choice here ==> "
+
+EXIT_MESSAGE = '\nThank you for using Secret Messages!\n'
+
+INVALID_ACTION_MESSAGE = '''
+You've entered an invalid action.
+Please enter [E]ncrypt, [D]ecrypt, or [Q]uit.'''
 
 KEY_NUMBER_PROMPT = \
 "\nPlease enter the key number you'd like to use for this cipher ==> "
 
+KEYWORD_PROMPT = \
+"\nPlease enter the key word you'd like to use for this cipher ==> "
+
+MESSAGE_PROMPT = "Please enter the message you'd like to {}: \n"
+
 OUTPUT_PREMESSAGE = "\nHere is your {}ed message using the {} cipher: "
 
-EXIT_MESSAGE = '\nThank you for using Secret Messages!\n'
+WELCOME = 'Welcome to Secret Messages!'
 
 
 def clear_screen():
