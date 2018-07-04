@@ -11,5 +11,8 @@ class Manipulator():
     def pad(message, pad_text):
         pass
 
+    def unpad(message, pad_text):
+        pass
+
     def group_characters(message, num_chars_per_group):
         pass

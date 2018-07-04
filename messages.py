@@ -72,11 +72,28 @@ def prompt_for_cipher_kwargs(cipher):
         cipher.set_arguments(new_args_dict)
 
 def prompt_for_message(action):
+    message = input(MESSAGE_PROMPT.format(action))
+    message = Manipulator.transform_to_valid_format(message)
+    return message
+
+def prompt_for_pad(action, message):
+    pad = ''
     while True:
-        message = input(MESSAGE_PROMPT.format(action))
-        message = Manipulator.transform_to_valid_format(message)
-        return message
+        use_pad = input(USE_PAD_PROMPT.format(action))
+        if use_pad.upper() not in {'Y': 'YES', 'N': 'NO'}:
+            print(USE_PAD_INVALID)
+            continue
+        elif use_pad.upper() in {'Y', 'YES'}:
+            while pad == '':
+                new_pad = input(PAD_PROMPT.format(action))
+                new_pad = Manipulator.transform_to_valid_format(new_pad)
+                if len(new_pad) < len(message):
+                    print(PAD_INVALID_LENGTH)
+                    continue
+                print(PAD_CONFIRMATION.format(action, new_pad))
+                pad = new_pad
         break
+    return pad
 
 
 if __name__=='__main__':
@@ -92,9 +109,15 @@ if __name__=='__main__':
         message = prompt_for_message(action)
         cipher = prompt_for_cipher(action)
         prompt_for_cipher_kwargs(cipher)
-        # Prompt for pad and transform message if needed
-        # Execute action on cipher
+
+        #TODO: Prompt for pad and transform message if needed
+        pad = prompt_for_pad(action, message)
+        if pad != '' and action == 'encrypt':
+            message = Manipulator.pad(message, pad)
         message = execute_action(action, cipher, message)
-        # Prompt for output format and transform message if needed
+        if pad != '' and action == 'decrypt':
+            message = Manipulator.unpad(message, pad)
+
+        #TODO: Prompt for output format and transform message if needed
         print(OUTPUT_PREMESSAGE.format(action, cipher))
         print(message)

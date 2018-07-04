@@ -46,8 +46,8 @@ The pad that will be used to {} this message is {}.
 '''
 
 PAD_INVALID_LENGTH = '''
-*** Remember that your pad must be the same number of character or
-more than you original message. ***
+*** Remember that your pad must be the same number of character or more than
+you original message, and it can only use upper case alphabetic letters. ***
 '''
 
 PAD_PROMPT = \
