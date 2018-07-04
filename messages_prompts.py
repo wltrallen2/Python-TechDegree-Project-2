@@ -3,7 +3,7 @@
 #########################################################
 
 ACTION_INVALID_INPUT = '''
-You've entered an invalid action.
+*** You've entered an invalid action. ***
 Please enter [E]ncrypt, [D]ecrypt, or [Q]uit.'''
 
 ACTION_PROMPT = '''
