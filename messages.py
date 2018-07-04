@@ -37,6 +37,8 @@ def prompt_for_cipher(action):
                 print(CIPHER_CONFIRMATION.format(cipher.__name__))
                 return cipher
         except ValueError:
+            # Invalid input (whether alphabetic or out-of-range numeric)
+            # is referenced in the print statement below.
             pass
 
         print(CIPHER_INVALID_CHOICE)
