@@ -102,6 +102,7 @@ if __name__=='__main__':
 
     while True:
         action = prompt_for_action()
+        clear_screen()
         if action == 'quit':
             print(GOODBYE)
             break
@@ -110,7 +111,6 @@ if __name__=='__main__':
         cipher = prompt_for_cipher(action)
         prompt_for_cipher_kwargs(cipher)
 
-        #TODO: Prompt for pad and transform message if needed
         pad = prompt_for_pad(action, message)
         if pad != '' and action == 'encrypt':
             message = Manipulator.pad(message, pad)
