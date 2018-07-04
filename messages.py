@@ -1,7 +1,7 @@
 import os
 
 from caesar import Caesar
-from message import Message
+from manipulator import Manipulator
 from messages_prompts import *
 
 
@@ -15,7 +15,9 @@ def clear_screen():
     os.system('clr' if os.name == 'nt' else 'clear')
 
 def execute_action(action, cipher, message):
-    pass
+    if action == 'encrypt':
+        return cipher.encrypt(message)
+    return cipher.decrypt(message)
 
 def prompt_for_action():
     while True:
@@ -48,7 +50,8 @@ def prompt_for_cipher(action):
 
 def prompt_for_message(action):
     while True:
-        message = Message(input(MESSAGE_PROMPT.format(action)))
+        message = input(MESSAGE_PROMPT.format(action))
+        message = Manipulator.transform_to_valid_format(message)
         return message
         break
 
@@ -65,10 +68,11 @@ if __name__=='__main__':
 
         message = prompt_for_message(action)
         cipher = prompt_for_cipher(action)
+        # import pdb; pdb.set_trace()
         # Prompt for cipher **kwargs if needed
         # Prompt for pad and transform message if needed
         # Execute action on cipher
-        # message = execute_action(action, cipher, message)
+        message = execute_action(action, cipher, message)
         # Prompt for output format and transform message if needed
         print(OUTPUT_PREMESSAGE.format(action, cipher))
         print(message)
