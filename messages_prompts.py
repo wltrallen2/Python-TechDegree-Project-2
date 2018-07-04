@@ -10,7 +10,7 @@ ACTION_PROMPT = '''
 Would you like to encrypt or decrypt a message?
 (Type 'Q' or 'QUIT' to quit.) [E/D/Q] ==> '''
 
-CIPHER_CONFIRMATION = "*** You chose the {} Cipher. ***\n"
+CIPHER_CONFIRMATION = "\n*** You chose the {} Cipher. ***\n"
 
 CIPHER_INVALID_CHOICE = \
 "*** Oops! You didn't enter a valid numeric choice. ***\n"
@@ -36,12 +36,6 @@ KEYWORD_ARGS_PROMPT = \
 "Please enter the following items for the {} cipher:"
 
 MESSAGE_PROMPT = '''
-****************************************************************************
-Please note that SECRET MESSAGES will transform all lower case letters
-into upper case and will ignore all non-alphabetic characters except for the
-whitespace ' ' for some ciphers.
-****************************************************************************
-
 Please enter the message you'd like to {}:
 '''
 
@@ -66,4 +60,12 @@ USE_PAD_INVALID = \
 USE_PAD_PROMPT = '''
 Would you like to use a one-time pad to {} this message? [Y/N] '''
 
-WELCOME = 'Welcome to SECRET MESSAGES!'
+WELCOME = '''
+Welcome to SECRET MESSAGES!
+
+****************************************************************************
+Please note that, for simplicity, SECRET MESSAGES will transform
+all lower case letters into upper case and will ignore all
+non-alphabetic characters including whitespace.
+****************************************************************************
+'''

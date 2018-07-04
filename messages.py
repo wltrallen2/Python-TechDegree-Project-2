@@ -46,6 +46,7 @@ def prompt_for_cipher(action):
 def prompt_for_message(action):
     while True:
         message = Message(input(MESSAGE_PROMPT.format(action)))
+        return message
         break
 
 
