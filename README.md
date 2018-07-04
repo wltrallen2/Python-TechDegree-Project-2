@@ -2,5 +2,5 @@
 **Project Title:** Secret Message\
 **Project Author:** Walter Allen
 
-**Project Start DateTime:** 6/9/18 • 11:28 PM CST\
+**Project Start DateTime:** 7/3/18 • 17:00 PM CST\
 **Project End DateTime:**   
