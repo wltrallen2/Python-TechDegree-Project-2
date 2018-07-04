@@ -13,10 +13,10 @@ Would you like to encrypt or decrypt a message?
 CIPHER_CONFIRMATION = "*** You chose the {} Cipher. ***\n"
 
 CIPHER_INVALID_CHOICE = \
-"\n*** Oops! You didn't enter a valid numeric choice. ***\n"
+"*** Oops! You didn't enter a valid numeric choice. ***\n"
 
-CIPHER_PROMPT_PART_1 = "Please choose the cipher you would like to use to {} \
-your message:"
+CIPHER_PROMPT_PART_1 = '''
+Please choose the cipher you would like to use to {} your message:'''
 
 CIPHER_PROMPT_PART_2 = "Enter the number of your choice here ==> "
 
