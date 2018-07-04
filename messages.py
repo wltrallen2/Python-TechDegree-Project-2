@@ -2,6 +2,7 @@ import os
 
 from atbash import Atbash
 from caesar import Caesar
+from keyword_cipher import Keyword
 from transposition import Transposition
 
 from manipulator import Manipulator
@@ -11,7 +12,7 @@ from messages_prompts import *
 VALID_ACTIONS = {'E': 'encrypt',
                  'D': 'decrypt',
                  'Q': 'quit'}
-VALID_CIPHERS = [Atbash, Caesar, Transposition]
+VALID_CIPHERS = [Atbash, Caesar, Keyword, Transposition]
 
 
 def clear_screen():

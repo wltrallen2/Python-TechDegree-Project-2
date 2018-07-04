@@ -2,6 +2,7 @@
 which maps each letter of the alphabet to its reverse. For example,
 the 1st letter (A) is mapped to the last, or 26th letter, (Z), and
 so on.
+
 If the character is not one of the 26 letters of the alphabet,
 it passes through the coding untouched. In other words, numbers and
 symbols will appear in the coded or decoded messages as the same
