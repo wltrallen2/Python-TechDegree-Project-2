@@ -14,6 +14,9 @@ VALID_CIPHERS = [Caesar]
 def clear_screen():
     os.system('clr' if os.name == 'nt' else 'clear')
 
+def execute_action(action, cipher, message):
+    pass
+
 def prompt_for_action():
     while True:
         action = input(ACTION_PROMPT).upper()
@@ -35,7 +38,7 @@ def prompt_for_cipher(action):
             if cipher_index <= len(VALID_CIPHERS):
                 cipher = VALID_CIPHERS[cipher_index - 1]
                 print(CIPHER_CONFIRMATION.format(cipher.__name__))
-                return cipher
+                return cipher()
         except ValueError:
             # Invalid input (whether alphabetic or out-of-range numeric)
             # is referenced in the print statement below.
@@ -65,5 +68,7 @@ if __name__=='__main__':
         # Prompt for cipher **kwargs if needed
         # Prompt for pad and transform message if needed
         # Execute action on cipher
+        # message = execute_action(action, cipher, message)
         # Prompt for output format and transform message if needed
-        # Output message
+        print(OUTPUT_PREMESSAGE.format(action, cipher))
+        print(message)
