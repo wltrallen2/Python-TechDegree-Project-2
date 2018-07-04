@@ -68,7 +68,6 @@ if __name__=='__main__':
 
         message = prompt_for_message(action)
         cipher = prompt_for_cipher(action)
-        # import pdb; pdb.set_trace()
         # Prompt for cipher **kwargs if needed
         # Prompt for pad and transform message if needed
         # Execute action on cipher
