@@ -35,7 +35,15 @@ KEYWORD_ARGS_INVALID = \
 KEYWORD_ARGS_PROMPT = \
 "Please enter the following items for the {} cipher:"
 
-MESSAGE_PROMPT = "Please enter the message you'd like to {}: \n"
+MESSAGE_PROMPT = '''
+****************************************************************************
+Please note that SECRET MESSAGES will transform all lower case letters
+into upper case and will ignore all non-alphabetic characters except for the
+whitespace ' ' for some ciphers.
+****************************************************************************
+
+Please enter the message you'd like to {}:
+'''
 
 OUTPUT_PREMESSAGE = "\nHere is your {}ed message using the {} cipher: "
 
