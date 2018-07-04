@@ -1,6 +1,8 @@
 import os
 
 from caesar import Caesar
+from transposition import Transposition
+
 from manipulator import Manipulator
 from messages_prompts import *
 
@@ -8,7 +10,7 @@ from messages_prompts import *
 VALID_ACTIONS = {'E': 'encrypt',
                  'D': 'decrypt',
                  'Q': 'quit'}
-VALID_CIPHERS = [Caesar]
+VALID_CIPHERS = [Caesar, Transposition]
 
 
 def clear_screen():
@@ -35,6 +37,7 @@ def prompt_for_cipher(action):
         cipher_i = 1
         for cipher_class in VALID_CIPHERS:
             print('{}: {}'.format(cipher_i, cipher_class.__name__))
+            cipher_i += 1
         try:
             cipher_index = int(input(CIPHER_PROMPT_PART_2))
             if cipher_index <= len(VALID_CIPHERS):
@@ -49,8 +52,22 @@ def prompt_for_cipher(action):
         print(CIPHER_INVALID_CHOICE)
 
 def prompt_for_cipher_kwargs(cipher):
-    if cipher.kwargs_keys != []:
-        print("Needs Kwargs")
+    if cipher.arguments_dict != {}:
+        new_args_dict = {}
+        print(KEYWORD_ARGS_PROMPT.format(cipher))
+        for args_key in cipher.arguments_dict:
+            valid_keyword = False
+            while not valid_keyword:
+                value = input('{} ==> '. format(args_key))
+                req_cls = cipher.arguments_dict[args_key]
+                try:
+                    value = req_cls(value)
+                except ValueError:
+                    print(KEYWORD_ARGS_INVALID.format(req_cls.__name__))
+                    continue
+                new_args_dict[args_key] = value
+                break
+        cipher.set_arguments(new_args_dict)
 
 def prompt_for_message(action):
     while True:
