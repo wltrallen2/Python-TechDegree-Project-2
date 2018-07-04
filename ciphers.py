@@ -1,6 +1,6 @@
 class Cipher:
 
-    def __init__(self, *arg, **kwargs):
+    def __init__(self):
         self.kwargs_keys = []
 
     def __str__(self):

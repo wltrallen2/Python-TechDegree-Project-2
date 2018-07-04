@@ -48,6 +48,10 @@ def prompt_for_cipher(action):
 
         print(CIPHER_INVALID_CHOICE)
 
+def prompt_for_cipher_kwargs(cipher):
+    if cipher.kwargs_keys != []:
+        print("Needs Kwargs")
+
 def prompt_for_message(action):
     while True:
         message = input(MESSAGE_PROMPT.format(action))
@@ -68,7 +72,7 @@ if __name__=='__main__':
 
         message = prompt_for_message(action)
         cipher = prompt_for_cipher(action)
-        # Prompt for cipher **kwargs if needed
+        prompt_for_cipher_kwargs(cipher)
         # Prompt for pad and transform message if needed
         # Execute action on cipher
         message = execute_action(action, cipher, message)
