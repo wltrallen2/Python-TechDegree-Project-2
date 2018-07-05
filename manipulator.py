@@ -92,7 +92,11 @@ class Manipulator():
         characters in the message variable is not evenly divisible by the
         number of characters per group.
         """
-        #TODO: Add comments here to clarify algorithm.
+        # The following code determines if the number of characters in the
+        # message is evenly divisible by the number of characters per requested
+        # group. If not, the code will add random characters (either
+        # punctuation marks or numbers 0-9) at random points within the
+        # original message.
         num_additional_chars = num_chars_per_group \
                                - (len(message) % num_chars_per_group)
         additional_chars = string.punctuation + string.digits
@@ -103,6 +107,11 @@ class Manipulator():
                       + new_char \
                       + message[new_char_index:]
 
+        # The following code breaks up the original message into equal
+        # character groupings based on the num_chars_per_group variable.
+        # If the group is NOT the last group, the code will add one
+        # whitespace character at the end before looping around to add the
+        # next group of characters.
         grouped_message = ''
         start_index = 0
         end_index = 0
