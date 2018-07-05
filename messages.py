@@ -76,6 +76,16 @@ def prompt_for_message(action):
     message = Manipulator.transform_to_valid_format(message)
     return message
 
+def prompt_for_output_format(message):
+    while True:
+        use_output = input(GROUP_PROMPT).upper()
+        if use_output in ['Y', 'YES']:
+            message = Manipulator.group_characters(message, 5)
+        elif use_output not in ['N', 'NO']:
+            print(GROUP_INVALID)
+            continue
+        return message
+
 def prompt_for_pad(action, message):
     pad = ''
     while True:
@@ -119,5 +129,7 @@ if __name__=='__main__':
             message = Manipulator.unpad(message, pad)
 
         #TODO: Prompt for output format and transform message if needed
+        if action == 'encrypt':
+            message = prompt_for_output_format(message)
         print(OUTPUT_PREMESSAGE.format(action, cipher))
         print(message)

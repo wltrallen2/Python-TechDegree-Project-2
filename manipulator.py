@@ -1,3 +1,4 @@
+import random
 import string
 
 class Manipulator():
@@ -35,4 +36,23 @@ class Manipulator():
         return unpadded_message
 
     def group_characters(message, num_chars_per_group):
-        pass
+        num_additional_chars = num_chars_per_group \
+                               - (len(message) % num_chars_per_group)
+        additional_chars = string.punctuation + string.digits
+        for index in range(num_additional_chars):
+            new_char = random.choice(additional_chars)
+            new_char_index = int(random.uniform(0, len(message)))
+            message = message[0:new_char_index] \
+                      + new_char \
+                      + message[new_char_index:]
+
+        grouped_message = ''
+        start_index = 0
+        end_index = 0
+        while end_index < len(message):
+            end_index += 5
+            grouped_message += message[start_index:end_index]
+            start_index = end_index
+            if start_index < len(message):
+                grouped_message += ' '
+        return grouped_message
