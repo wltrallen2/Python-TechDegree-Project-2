@@ -1,19 +1,22 @@
-"""transposition.py encodes and decodes messages using the Rail Fence Cipher
-(a version of the Transposition cipher as defined at
-https://en.wikipedia.org/wiki/Transposition_cipher). The initializer
-requires an int that represents the number of rails to use, but
-it defaults to 3 if no int is passed.
-
-This version of Transposition requires that all characters be uppercase
-letters with no whitespace or other special characters.
-"""
-
 from ciphers import Cipher
 
 class Transposition(Cipher):
+    """This class encodes and decodes messages using the Rail Fence Cipher
+    (a version of the Transposition cipher as defined at
+    https://en.wikipedia.org/wiki/Transposition_cipher). The initializer
+    requires an int that represents the number of rails to use, but
+    it defaults to 3 if no int is passed.
+
+    This version of Transposition requires that all characters be uppercase
+    letters with no whitespace or other special characters.
+    """
     def __init__(self, num_rails = 3):
-        """The initializer accepts a an int <num_rails> and sets then
-        instance variable <num_rails>.
+        """The initializer accepts an int <num_rails> and sets then
+        instance variable <num_rails>. If no int is passed, the initializer
+        will set the default number of rails to 3.
+
+        It also defines the arguments_dict variable to indicate that this
+        cipher requires an int for the 'Number of Rails'.
         """
         super().__init__()
         self.arguments_dict = {'Number of Rails': int}
@@ -23,10 +26,14 @@ class Transposition(Cipher):
         self.num_rails = int(num_rails)
 
     def set_arguments(self, args_dict):
+        """Sets the number of rails to use in the enryption and decryption
+        process by using the value that is attached to the key 'Number of
+        Rails' in the arguments_dict.
+        """
         self.num_rails = args_dict['Number of Rails']
 
     def encrypt(self, message):
-        """encrypt(message) encrypts the <message> using the Rail
+        """Returns the ecrypted message using the Rail
         Fence Tranposition Cipher as described at
         https://en.wikipedia.org/wiki/Transposition_cipher.
         """
@@ -45,7 +52,7 @@ class Transposition(Cipher):
         return ''.join(rails)
 
     def decrypt(self, message):
-        """decrypt(message) decrypts the <message> using the Rail
+        """Returns the decrypted message using the Rail
         Fence Tranposition Cipher as described at
         https://en.wikipedia.org/wiki/Transposition_cipher.
         """
@@ -66,11 +73,18 @@ class Transposition(Cipher):
 
         return ''.join(coded_chars_list)
 
-    def __get_next_index_for(self, index, num_rails, rail_index, alternating_factor):
-        """This is a helper function is used during the decryption process
+    def __get_next_index_for(self, index, num_rails, \
+                             rail_index, alternating_factor):
+        """Returns a tuple which includes an int value and an
+        alternating_factor.
+
+        The int value is used during the decryption process
         to determine the next index value (its position in the decoded message)
         for a letter in the encoded_message, which has been encoded using the
         Rail Fence Transposition Cipher.
+
+        The alternating_factor is used in the algorithm to determine
+        whether the message is travelling up or down the rails.
         """
         if rail_index == num_rails - 1:
             rail_index = 0
@@ -85,8 +99,9 @@ class Transposition(Cipher):
             return index + increment, 'A'
 
     def __index_at_or_out_of_bounds(self, index, range):
-        """This is a helper function that helps to determine if the passed
-        index is at or outside of the bounds of the given range.
+        """Returns True if the passed index is at or outside of the bounds
+        of the given range. Otherwise, returns False.
         """
         if (index <= range.start) or (index >= range.stop - 1):
             return True
+        return False
