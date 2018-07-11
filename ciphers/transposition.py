@@ -1,5 +1,6 @@
 from .ciphers import Cipher
 
+
 class Transposition(Cipher):
     """This class encodes and decodes messages using the Rail Fence Cipher
     (a version of the Transposition cipher as defined at
@@ -73,7 +74,7 @@ class Transposition(Cipher):
 
         return ''.join(coded_chars_list)
 
-    def __get_next_index_for(self, index, num_rails, \
+    def __get_next_index_for(self, index, num_rails,
                              rail_index, alternating_factor):
         """Returns a tuple which includes an int value and an
         alternating_factor.

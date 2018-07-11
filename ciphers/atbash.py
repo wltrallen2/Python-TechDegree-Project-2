@@ -3,6 +3,7 @@ import string
 
 ALPHABET = string.ascii_letters.upper()
 
+
 class Atbash(Cipher):
     """This class encodes and decodes messages using the Atbash Cipher,
     which maps each letter of the alphabet to its reverse. For example,

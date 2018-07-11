@@ -13,6 +13,7 @@ These four methods are as follows:
 import random
 import string
 
+
 class Manipulator:
     def transform_to_valid_format(text):
         """Returns a string.

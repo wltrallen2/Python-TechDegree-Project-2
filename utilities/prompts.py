@@ -2,6 +2,7 @@
 # The following constants are listed alphabetically.
 #########################################################
 
+
 class Prompts:
     """This class provides static prompts for use in the main module
     for SECRET MESSAGES.

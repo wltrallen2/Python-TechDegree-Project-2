@@ -195,7 +195,7 @@ def prompt_for_pad(action, message):
 
 ################# __MAIN__ METHOD ##################
 ####################################################
-if __name__=='__main__':
+if __name__ == '__main__':
     clear_screen()
     print(Prompts.WELCOME)
 
@@ -234,3 +234,4 @@ if __name__=='__main__':
         # Finally, the following code outputs the message.
         print(Prompts.OUTPUT_PREMESSAGE.format(action, cipher))
         print(message)
+        

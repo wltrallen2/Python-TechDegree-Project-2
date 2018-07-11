@@ -54,7 +54,6 @@ class Keyword(Cipher):
                                          self.keyword_alphabet,
                                          ALPHABET)
 
-
     def __create_keyword_alphabet(self, key_word):
         """Returns a keyword_alphabet by removing the letters in the <key_word>
         from the English alphabet (ignoring symbols, whitespace, and duplicate
