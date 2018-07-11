@@ -41,7 +41,7 @@ VALID_CIPHERS = [Atbash, Caesar, Keyword, Transposition]
 #####################################################
 def clear_screen():
     """Clears the screen to increase readability."""
-    os.system('clr' if os.name == 'nt' else 'clear')
+    os.system('cls' if os.name == 'nt' else 'clear')
 
 def execute_action(action, cipher, message):
     """Given the action ('encrypt' or 'decrypt'), this function will
