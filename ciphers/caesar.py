@@ -1,6 +1,6 @@
 import string
 
-from ciphers.ciphers import Cipher
+from .ciphers import Cipher
 
 
 class Caesar(Cipher):

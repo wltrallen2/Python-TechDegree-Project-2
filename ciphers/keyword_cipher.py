@@ -1,4 +1,4 @@
-from ciphers.ciphers import Cipher
+from .ciphers import Cipher
 
 
 ALPHABET = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'

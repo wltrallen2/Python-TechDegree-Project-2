@@ -1,4 +1,4 @@
-from ciphers.ciphers import Cipher
+from .ciphers import Cipher
 
 class Transposition(Cipher):
     """This class encodes and decodes messages using the Rail Fence Cipher
