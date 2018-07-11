@@ -20,13 +20,13 @@ whitespace) and transform all characters to upper case.
 
 import os
 
-from ciphers.atbash import Atbash
-from ciphers.caesar import Caesar
-from ciphers.keyword_cipher import Keyword
-from ciphers.transposition import Transposition
+from ciphers import Atbash
+from ciphers import Caesar
+from ciphers import Keyword
+from ciphers import Transposition
 
-from utilities.manipulator import Manipulator
-from utilities.messages_prompts import *
+from utilities import Manipulator
+from utilities import Prompts
 
 
 ########## CONSTANTS ##########
@@ -61,13 +61,13 @@ def prompt_for_action():
     character of the desired choice.
     """
     while True:
-        action = input(ACTION_PROMPT).upper()
+        action = input(Prompts.ACTION_PROMPT).upper()
         if action in VALID_ACTIONS.keys():
             return VALID_ACTIONS[action]
         if action.lower() in VALID_ACTIONS.values():
             return action.lower()
 
-        print(ACTION_INVALID_INPUT)
+        print(Prompts.ACTION_INVALID_INPUT)
 
 def prompt_for_cipher(action):
     """Returns an instance of a Cipher subclass.
@@ -80,23 +80,23 @@ def prompt_for_cipher(action):
     valid input is entered.
     """
     while True:
-        print(CIPHER_PROMPT_PART_1.format(action))
+        print(Prompts.CIPHER_PROMPT_PART_1.format(action))
         cipher_i = 1
         for cipher_class in VALID_CIPHERS:
             print('{}: {}'.format(cipher_i, cipher_class.__name__))
             cipher_i += 1
         try:
-            cipher_index = int(input(CIPHER_PROMPT_PART_2))
+            cipher_index = int(input(Prompts.CIPHER_PROMPT_PART_2))
             if cipher_index <= len(VALID_CIPHERS):
                 cipher = VALID_CIPHERS[cipher_index - 1]
-                print(CIPHER_CONFIRMATION.format(cipher.__name__))
+                print(Prompts.CIPHER_CONFIRMATION.format(cipher.__name__))
                 return cipher()
         except ValueError:
             # Invalid input (whether alphabetic or out-of-range numeric)
             # is referenced in the print statement below.
             pass
 
-        print(CIPHER_INVALID_CHOICE)
+        print(Prompts.CIPHER_INVALID_CHOICE)
 
 def prompt_for_cipher_kwargs(cipher):
     """This function will prompt the user to enter any arguments that are
@@ -118,7 +118,7 @@ def prompt_for_cipher_kwargs(cipher):
     """
     if cipher.arguments_dict != {}:
         new_args_dict = {}
-        print(KEYWORD_ARGS_PROMPT.format(cipher))
+        print(Prompts.KEYWORD_ARGS_PROMPT.format(cipher))
         for args_key in cipher.arguments_dict:
             valid_keyword = False
             while not valid_keyword:
@@ -127,7 +127,7 @@ def prompt_for_cipher_kwargs(cipher):
                 try:
                     value = req_cls(value)
                 except ValueError:
-                    print(KEYWORD_ARGS_INVALID.format(req_cls.__name__))
+                    print(Prompts.KEYWORD_ARGS_INVALID.format(req_cls.__name__))
                     continue
                 new_args_dict[args_key] = value
                 break
@@ -142,7 +142,7 @@ def prompt_for_message(action):
     a filter to strip away any non-alphabetic characters including whitespace,
     and to transform the message into uppercase.
     """
-    message = input(MESSAGE_PROMPT.format(action))
+    message = input(Prompts.MESSAGE_PROMPT.format(action))
     message = Manipulator.transform_to_valid_format(message)
     return message
 
@@ -155,11 +155,11 @@ def prompt_for_output_format(message):
     output returned as one long string without whitespace.
     """
     while True:
-        use_output = input(GROUP_PROMPT).upper()
+        use_output = input(Prompts.GROUP_PROMPT).upper()
         if use_output in ['Y', 'YES']:
             message = Manipulator.group_characters(message, 5)
         elif use_output not in ['N', 'NO']:
-            print(GROUP_INVALID)
+            print(Prompts.GROUP_INVALID)
             continue
         return message
 
@@ -176,18 +176,18 @@ def prompt_for_pad(action, message):
     """
     pad = ''
     while True:
-        use_pad = input(USE_PAD_PROMPT.format(action))
+        use_pad = input(Prompts.USE_PAD_PROMPT.format(action))
         if use_pad.upper() not in {'Y': 'YES', 'N': 'NO'}:
-            print(USE_PAD_INVALID)
+            print(Prompts.USE_PAD_INVALID)
             continue
         elif use_pad.upper() in {'Y', 'YES'}:
             while pad == '':
-                new_pad = input(PAD_PROMPT.format(action))
+                new_pad = input(Prompts.PAD_PROMPT.format(action))
                 new_pad = Manipulator.transform_to_valid_format(new_pad)
                 if len(new_pad) < len(message):
-                    print(PAD_INVALID_LENGTH)
+                    print(Prompts.PAD_INVALID_LENGTH)
                     continue
-                print(PAD_CONFIRMATION.format(action, new_pad))
+                print(Prompts.PAD_CONFIRMATION.format(action, new_pad))
                 pad = new_pad
         break
     return pad
@@ -197,7 +197,7 @@ def prompt_for_pad(action, message):
 ####################################################
 if __name__=='__main__':
     clear_screen()
-    print(WELCOME)
+    print(Prompts.WELCOME)
 
     # This is the beginning of the primary control loop, which will loop
     # until the user enters 'Q' or 'Quit' at the action_prompt.
@@ -205,7 +205,7 @@ if __name__=='__main__':
         action = prompt_for_action()
         clear_screen()
         if action == 'quit':
-            print(GOODBYE)
+            print(Prompts.GOODBYE)
             break
 
         # The following code prompts the user to enter the message,
@@ -232,5 +232,5 @@ if __name__=='__main__':
             message = prompt_for_output_format(message)
 
         # Finally, the following code outputs the message.
-        print(OUTPUT_PREMESSAGE.format(action, cipher))
+        print(Prompts.OUTPUT_PREMESSAGE.format(action, cipher))
         print(message)
