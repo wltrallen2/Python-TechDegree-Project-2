@@ -1,4 +1,4 @@
-from ciphers import Cipher
+from ciphers.ciphers import Cipher
 import string
 
 ALPHABET = string.ascii_letters.upper()
@@ -14,7 +14,7 @@ class Atbash(Cipher):
     symbols will appear in the coded or decoded messages as the same
     numbers and symbols.
     """
-    
+
     def encrypt(self, message):
         """Returns an encoded message by encrypting the <message> using
         the Atbash Cipher.

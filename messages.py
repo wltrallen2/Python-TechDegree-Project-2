@@ -20,13 +20,13 @@ whitespace) and transform all characters to upper case.
 
 import os
 
-from atbash import Atbash
-from caesar import Caesar
-from keyword_cipher import Keyword
-from transposition import Transposition
+from ciphers.atbash import Atbash
+from ciphers.caesar import Caesar
+from ciphers.keyword_cipher import Keyword
+from ciphers.transposition import Transposition
 
-from manipulator import Manipulator
-from messages_prompts import *
+from utilities.manipulator import Manipulator
+from utilities.messages_prompts import *
 
 
 ########## CONSTANTS ##########
